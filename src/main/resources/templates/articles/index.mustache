@@ -1,0 +1,59 @@
+{{>layouts/header}}
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+<!--{{#articleList}}-->
+    <tr>
+        <th scope="row"><a href="/articles/{{id}}">{{id}}</a></th>
+        <td><a href="/articles/{{id}}">{{title}}</a></td>
+        <td>{{content}}</td>
+    </tr>
+<!--{{/articleList}}-->
+    </tbody>
+</table>
+<a href="/articles/new" class="btn btn-primary">New Article</a>
+
+<hr>
+<!--페이징 처리 UI구현-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination mt-3">
+        {{#preStatus}}
+        <li class="page-item"><a class="page-link" href="/articles?pageNum={{previous}}">Previous</a></li>
+        {{/preStatus}}
+        {{#pageNums}}
+        <li class="page-item current-page"><a class="page-link" href="/articles?pageNum={{.}}">{{.}}</a></li>
+        {{/pageNums}}
+        {{#nextStatus}}
+        <li class="page-item"><a class="page-link" href="/articles?pageNum={{next}}">Next</a></li>
+        {{/nextStatus}}
+
+    </ul>
+    {{pageNum}} Page / {{totalPages}} 전체 페이지
+</nav>
+
+</div>
+{{>layouts/footer}}
+<script>
+let queryString = window.location.search;
+let = params={};
+queryString.substring(1).split('&').forEach(param => {
+    const [key, value] = param.split('=');
+    params[key] = value;
+});
+console.log(params);
+var pageNation = document.querySelectorAll('.current-page');
+var num = params.pageNum - 1;
+if (params.pageNum != undefined) {
+    pageNation[num].classList.add('active');
+} else {
+    //location.href="/articles?pageNum=1"
+    pageNation[0].classList.add('active');
+}
+</script>

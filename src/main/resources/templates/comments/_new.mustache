@@ -1,0 +1,51 @@
+<div class="container">
+<div class="card m-2">
+    <div class="card-body">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">닉네임
+                    <input type="text" class="form-control" id="new-comment-nickname">
+                </label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">댓글내용
+                    <textarea rows="3" class="form-control" id="new-comment-body"></textarea>
+                </label>
+            </div>
+        </form>
+        <!-- 게시글 ID 를 첨부해서 보낸다. -->
+        <input type="hidden" id="new-comment-article-id" value="{{article.id}}">
+
+        <button type="button" class="btn btn-primary" id="comment-create-btn">댓글작성</button>
+    </div>
+</div>
+</div>
+
+<script>
+
+    const commentCreateBtn = document.querySelector("#comment-create-btn");
+    commentCreateBtn.addEventListener("click", function() {
+        const comment = {
+            nickname: document.querySelector("#new-comment-nickname").value,
+            body: document.querySelector("#new-comment-body").value,
+            article_id: document.querySelector("#new-comment-article-id").value
+        }
+        console.log(comment);
+        // 비동기 통신
+        const url = "/api/articles/" + comment.article_id + "/comments";
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(comment),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        }).then(response => {
+            console.log(response);
+            const msg = (response.ok) ? "댓글이 등록되었습니다." : "댓글 등록 실패";
+            alert(msg);
+            if (response.ok) window.location.reload();
+        }).catch(error => console.error("Error: " + error));
+    });
+
+
+</script>

@@ -1,0 +1,19 @@
+{{>layouts/header}}
+{{#comments}}
+    <div class="card m-2" id="comments={{id}}">
+        <div class="card-header">
+            {{nickname}}
+        </div>
+        <div class="card-body">
+            {{body}}
+        </div>
+    </div>
+{{/comments}}
+
+{{^comments}}
+    닉네임이 존재하지 않습니다.
+{{/comments}}
+
+<a href="/articles">글 목록으로 가기</a>
+
+{{>layouts/footer}}
